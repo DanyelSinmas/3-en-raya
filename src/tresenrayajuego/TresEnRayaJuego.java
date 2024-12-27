@@ -55,32 +55,43 @@ public class TresEnRayaJuego {
         //inicio del juego de 3 en raya trás el menú inicial:
         while (play == true) { //dentro de este while se representa el bucle jugable
             if (numJugador % 2 == 0) { //este if determina el turno de X o de O
-                System.out.println("Jugador X");
+                System.out.println("Jugador (X)");
             } else {
-                System.out.println("Jugador O");
+                System.out.println("CPU (O)");
             }
 
             do { //este do-while comprueba que los datos sean correctos y/o válidos
-                try {
-                    System.out.print("Fila:");
-                    fila = reader.nextInt();
-                    System.out.print("Columna:");
-                    columna = reader.nextInt();
-                    if (fila >= 1 && fila <= 3 && columna >= 1 && columna <= 3) { //este if no permite un valor que provoce excepciones junto al try-catch
-                        if (tablero[fila - 1][columna - 1] == ' ') { //este if comprueba que la celda seleccionada esté ya ocupada
-                            break;
+                if (numJugador % 2 == 0) {
+                    try {
+                        System.out.print("Fila:");
+                        fila = reader.nextInt();
+                        System.out.print("Columna:");
+                        columna = reader.nextInt();
+                    } catch (InputMismatchException ime) {
+                        System.out.println("Valor inválido");
+                        reader.next();
+                    } catch (Exception e) {
+                        System.out.println("Error inesperado\n" + e);
+                        reader.next();
+                    }
+                } else {
+                    fila = (int) (Math.random() * 3) + 1;
+                    columna = (int) (Math.random() * 3) + 1;
+                }
+                if (fila >= 1 && fila <= 3 && columna >= 1 && columna <= 3) { //este if no permite un valor que provoce excepciones junto al try-catch
+                    if (tablero[fila - 1][columna - 1] == ' ') { //este if comprueba que la celda seleccionada esté ya ocupada
+                        break;
+                    } else {
+                        if (numJugador % 2 != 0) {
                         } else {
                             System.out.println("La celda ya está ocupada, elige otra.");
                         }
+                    }
+                } else {
+                    if (numJugador % 2 != 0) {
                     } else {
                         System.out.println("Solo valores entre 1 y 3");
                     }
-                } catch (InputMismatchException ime) {
-                    System.out.println("Valor inválido");
-                    reader.next();
-                } catch (Exception e) {
-                    System.out.println("Error inesperado\n" + e);
-                    reader.next();
                 }
             } while (true);
             if (numJugador % 2 == 0) { //imprime una X o un O dependiendo del turno (pares X, impares O)
